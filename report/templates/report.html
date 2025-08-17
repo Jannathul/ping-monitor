@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Failure Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+        }
+        th, td {
+            padding: 10px 14px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #eee;
+        }
+        .long-standing {
+            background-color: #ffe4e1;
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        .controls form {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .controls label {
+            font-weight: bold;
+        }
+        .controls button {
+            padding: 6px 12px;
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background-color: #005fa3;
+        }
+        .refresh-button {
+            background-color: #28a745;
+        }
+        .refresh-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Failure Report — {{ range_type|capitalize }}</h1>
+
+    <div class="controls">
+        <form method="get" action="/report">
+            <label for="range">Select Range:</label>
+            <select name="range" id="range">
+                <option value="daily" {% if range_type == 'daily' %}selected{% endif %}>Daily</option>
+                <option value="weekly" {% if range_type == 'weekly' %}selected{% endif %}>Weekly</option>
+                <option value="monthly" {% if range_type == 'monthly' %}selected{% endif %}>Monthly</option>
+            </select>
+
+            <label>
+                <input type="checkbox" name="long" value="true" {% if long_only %}checked{% endif %}>
+                Long-standing only
+            </label>
+
+            <button type="submit">Apply</button>
+            <button type="submit" name="export" value="true">Export CSV</button>
+        </form>
+
+        <button class="refresh-button" onclick="location.reload()">🔄 Refresh</button>
+    </div>
+
+    {% if logs %}
+    <table>
+        <thead>
+            <tr>
+                <th>IP Address</th>
+                <th>Failure Start</th>
+                <th>Failure End</th>
+                {% if long_only %}
+                    <th>Hours Failed</th>
+                    <th>Days Failed</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr {% if long_only %}class="long-standing"{% endif %}>
+                <td>{{ log.ip_address }}</td>
+                <td>{{ log.failure_start }}</td>
+                <td>{{ log.failure_end }}</td>
+                {% if long_only %}
+                    <td>{{ log.hours_failed }}</td>
+                    <td>{{ log.days_failed }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No failure sessions found for this range.</p>
+    {% endif %}
+</body>
+</html>

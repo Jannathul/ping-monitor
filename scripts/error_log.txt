@@ -1,0 +1,4 @@
+2025-08-16 21:12:05.242760 | [FATAL] [Errno 2] No such file or directory: 'C:\\Users\\FIRDOUSE\\project\\ping-monitor\\scripts\\config\\ip_list.txt'
+2025-08-16 21:13:32.644786 | [FATAL] [Errno 2] No such file or directory: 'C:\\Users\\FIRDOUSE\\project\\ping-monitor\\scripts\\.\\config\\ip_list.txt'
+2025-08-16 21:17:20.905978 | [FATAL] [Errno 2] No such file or directory: 'C:\\Users\\FIRDOUSE\\project\\ping-monitor\\scripts\\.\\config\\ip_list.txt'
+2025-08-16 21:17:42.253308 | [FATAL] [Errno 2] No such file or directory: 'C:\\Users\\FIRDOUSE\\project\\ping-monitor\\scripts\\config\\ip_list.txt'
